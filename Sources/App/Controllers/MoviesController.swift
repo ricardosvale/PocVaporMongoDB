@@ -23,8 +23,29 @@ class MoviesController: RouteCollection {
         api.get("movies", ":movieId",  use: getById)
         //DELETE: /api/movies/:movieId
         api.delete("movies", ":movieId", use: deleteMovie)
+        //PUT: /api/movies/:moviesId
+        api.put("movies", ":movieId", use: updateMovie)
     }
-    func deleteMovie(req: Request)async throws -> Movie {
+    
+    func updateMovie(req: Request) async throws -> Movie {
+        guard let movieId = req.parameters.get("movieId", as: UUID.self) else {
+            throw Abort(.notFound)
+          }
+        guard let movie = try await Movie.find(movieId, on: req.db) else {
+            throw Abort(.notFound)
+        }
+        
+        //Aqui Decodifico meu JSON
+        let updateMovie = try req.content.decode(Movie.self)
+        
+        movie.title = updateMovie.title
+        movie.year = updateMovie.year
+        
+        try await movie.update(on: req.db)
+        return movie
+    }
+    
+    func deleteMovie(req: Request) async throws -> Movie {
         guard let movieId = req.parameters.get("movieId", as: UUID.self) else {
             throw Abort(.notFound)
         }
@@ -40,6 +61,7 @@ class MoviesController: RouteCollection {
         return try await Movie.query(on: req.db)
             .all()
     }
+    
     func getById(req: Request) async throws -> Movie {
         guard let movieId = req.parameters.get("movieId", as: UUID.self) else {
             throw Abort(.notFound)
@@ -51,6 +73,7 @@ class MoviesController: RouteCollection {
      
         return movie
     }
+    
     func create(req: Request) async throws -> Movie {
         
         let movie = try req.content.decode(Movie.self)

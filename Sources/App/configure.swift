@@ -4,6 +4,7 @@ import Vapor
 
 
 // Configura a sua aplicação
+@available(iOS 13.0.0, *)
 public func configure(_ app: Application) async throws {
     // Atualize a string de conexão com a senha codificada
    
