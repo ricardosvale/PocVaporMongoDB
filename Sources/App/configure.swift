@@ -12,6 +12,8 @@ public func configure(_ app: Application) async throws {
     // Registrar os Controllers
     try app.register(collection: MoviesController())
     
+    try app.register(collection: RentalController())
+    
     
     // Registre as rotas
     try routes(app)
