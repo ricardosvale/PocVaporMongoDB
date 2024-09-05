@@ -26,7 +26,7 @@ class MoviesController: RouteCollection {
         //PUT: /api/movies/:moviesId
         api.put("movies", ":movieId", use: updateMovie)
     }
-    @MainActor
+   
     func updateMovie(req: Request) async throws -> Movie {
         guard let movieId = req.parameters.get("movieId", as: UUID.self) else {
             throw Abort(.notFound)
