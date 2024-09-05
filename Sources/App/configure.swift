@@ -13,14 +13,7 @@ public func configure(_ app: Application) async throws {
     try app.register(collection: RentalController())
     try app.register(collection: MoviesController())
     
-    // Registra a migração
-       app.migrations.add(CreateMovie())
-       
-       // Roda as migrações
-       try app.autoMigrate().wait()
-    
-    
-    // Registre as rotas
+ // Registre as rotas
     try routes(app)
 }
 

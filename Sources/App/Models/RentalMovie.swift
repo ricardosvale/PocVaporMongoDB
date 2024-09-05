@@ -23,7 +23,7 @@ final class RentalMovie: Model {
 
     init() { }
 
-    init(rentalID: UUID, movieID: UUID) {
+    init(id: UUID? = nil, rentalID: UUID, movieID: UUID) {
         self.$rental.id = rentalID
         self.$movie.id = movieID
     }

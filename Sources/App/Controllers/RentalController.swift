@@ -40,9 +40,19 @@ class RentalController: RouteCollection {
         
         // Itera sobre os filmes fornecidos e cria cada um
         for movieData in createRentalData.movies {
-            let movie = Movie(title: movieData.title, year: movieData.year)
-            try await movie.save(on: req.db)
-            
+            let existingMovie = try await Movie.query(on: req.db)
+                          .filter(\.$title == movieData.title)
+                          .filter(\.$year == movieData.year)
+                          .first()
+                      
+                      let movie: Movie
+                      if let existingMovie = existingMovie {
+                          movie = existingMovie
+                      } else {
+                          movie = Movie(title: movieData.title, year: movieData.year)
+                          try await movie.save(on: req.db)
+                      }
+                      
             // Associa o filme ao Rental
             try await rental.$movies.attach(movie, on: req.db)
         }
