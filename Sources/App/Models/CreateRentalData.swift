@@ -9,10 +9,6 @@ import Foundation
 import Vapor
 import Fluent
 
-struct CreateRentalData: Content {
-    var name: String
-    var movieIds: [UUID]
-}
 
 struct CreateRentalWithMoviesData: Content {
     var name: String

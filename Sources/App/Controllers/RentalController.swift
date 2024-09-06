@@ -23,7 +23,7 @@ class RentalController: RouteCollection {
         // GET: /rental
        api.get("rental1", use: getAll)
 //        // GET: /rental/:rentalId
-        api.get(":rentalId", use: getById)
+        api.get("rental1",":rentalId", use: getById)
 //        // PUT: /rental/:rentalId
 //        api.put(":rentalId", use: update)
 //        // DELETE: /rental/:rentalId
@@ -64,7 +64,7 @@ class RentalController: RouteCollection {
            }
            
     // GET: /rentals/:rentalId (exemplo)
-      func getById(req: Request) async throws -> Rental {
+      func getById(req: Request) async throws -> CreateRentalWithMoviesData {
           guard let rentalId = req.parameters.get("rentalId", as: UUID.self) else {
               throw Abort(.badRequest, reason: "Invalid or missing rental ID.")
           }
@@ -76,8 +76,12 @@ class RentalController: RouteCollection {
               throw Abort(.notFound, reason: "Rental not found.")
           }
           
-          return rental
+     
+          return  rental.toDto()
       }
+ 
+    
+    
     func getAll(req: Request) async throws -> [Rental] {
           // Consulta todos os Rentals e inclui os filmes associados
           return try await Rental.query(on: req.db)
