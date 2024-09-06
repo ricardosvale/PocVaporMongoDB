@@ -12,6 +12,8 @@ func routes(_ app: Application) throws {
     }
     app.get("movies") { req async -> String in
         "movies"
-        
+    }
+    app.get("rental") { req async -> String in
+            "rental"
     }
 }
