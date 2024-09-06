@@ -28,6 +28,9 @@ struct RentalController: RouteCollection {
         //PUT: /rental1/:rentalId/add-movie/:movieId
         api.put("rental1", ":rentalId", "add-movie", ":movieId",  use: addMovieToRental.self)
         
+        //DELETE:  /rental1/:rentalId
+        api.delete("rental1", ":rentalId", use: deleteRental)
+        
     }
     
     @Sendable
@@ -114,5 +117,18 @@ struct RentalController: RouteCollection {
         try await rental.$movies.attach(movie, on: req.db)
         
         return .ok
+    }
+    
+    @Sendable
+    func deleteRental(req: Request) async throws -> Rental{
+        guard let rentalId = req.parameters.get("rentalId", as: UUID.self) else{
+            throw Abort(.notFound)
+        }
+        
+        guard let rental = try await Rental.find(rentalId, on: req.db) else {
+            throw Abort(.notFound)
+        }
+        try await rental.delete(on: req.db)
+        return rental
     }
 }
