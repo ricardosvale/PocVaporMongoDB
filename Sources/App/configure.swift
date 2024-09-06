@@ -10,12 +10,10 @@ public func configure(_ app: Application) async throws {
    
     try app.databases.use(.mongo(connectionString: "mongodb+srv://ricardost3:ricardo123@clusterpoc.ha3do.mongodb.net/pocvapordb?retryWrites=true&w=majority&appName=ClusterPOC"), as: .mongo)
     // Registrar os Controllers
+    try app.register(collection: RentalController())
     try app.register(collection: MoviesController())
     
-    try app.register(collection: RentalController())
-    
-    
-    // Registre as rotas
+ // Registre as rotas
     try routes(app)
 }
 
