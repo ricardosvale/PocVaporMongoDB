@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Ricardo Silva Vale on 30/08/24.
 //
@@ -9,19 +9,19 @@ import Foundation
 import Vapor
 import Fluent
 
-final class Movie: Model, Content {
+final class Movie: Model, Content, @unchecked Sendable {
     
     static let schema = "movies"
-
+    
     @ID(key: .id)
-   var id: UUID?
+    var id: UUID?
     
     @Field(key: "title")
     var title: String
     
     @Field(key: "year")
     var year: Int
-  
+    
     @Siblings(through: RentalMovie.self, from: \.$movie, to: \.$rental)
     var rentals: [Rental]
     

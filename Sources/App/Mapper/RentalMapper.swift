@@ -16,5 +16,4 @@ extension Rental{
             }
         )
     }
-    
 }
