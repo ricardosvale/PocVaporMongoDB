@@ -128,6 +128,9 @@ struct RentalController: RouteCollection {
         guard let rental = try await Rental.find(rentalId, on: req.db) else {
             throw Abort(.notFound)
         }
+        // Exclue a relação na rental_movie
+        try await rental.$movies.detachAll(on: req.db)
+        
         try await rental.delete(on: req.db)
         return rental
     }

@@ -57,6 +57,9 @@ struct MoviesController: RouteCollection {
         guard let movie = try await Movie.find(movieId, on: req.db) else {
             throw Abort(.notFound)
         }
+        //Exclue a relação no rental_movie (pivot)
+        try await movie.$rentals.detachAll(on: req.db)
+        
         try await movie.delete(on: req.db)
         return movie
     }
