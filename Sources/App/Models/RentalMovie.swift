@@ -8,7 +8,7 @@ import Foundation
 import Vapor
 import Fluent
 
-final class RentalMovie: Model {
+final class RentalMovie: Model, @unchecked Sendable {
 
     static let schema = "rental_movie"
 

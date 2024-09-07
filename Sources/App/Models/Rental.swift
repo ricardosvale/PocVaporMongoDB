@@ -9,7 +9,7 @@ import Foundation
 import Vapor
 import Fluent
 
-final class Rental: Model, Content {
+final class Rental: Model, Content, @unchecked Sendable {
   
     static let schema = "rentals"
     
