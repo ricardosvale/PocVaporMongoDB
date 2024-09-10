@@ -81,7 +81,7 @@ struct RentalController: RouteCollection {
             throw Abort(.notFound, reason: "Rental not found.")
         }
         
-        return  rental.toDto()
+        return  rental.toDto()  
     }
     
     

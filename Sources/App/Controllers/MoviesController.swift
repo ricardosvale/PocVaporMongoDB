@@ -71,7 +71,7 @@ struct MoviesController: RouteCollection {
     }
     
     @Sendable
-    func getById(req: Request) async throws -> Movie {
+    func getById(req: Request) async throws -> MovieData {
         guard let movieId = req.parameters.get("movieId", as: UUID.self) else {
             throw Abort(.notFound)
         }
@@ -80,7 +80,7 @@ struct MoviesController: RouteCollection {
             throw Abort(.notFound, reason: "MovieId \(movieId) was not found.")
         }
         
-        return movie
+        return movie.toMovieDto()
     }
     
     @Sendable
